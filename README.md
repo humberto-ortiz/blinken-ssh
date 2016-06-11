@@ -34,7 +34,11 @@ check for sshd logs that say "Failed" or "Accepted".
 ### LED
 
 Following the tutorial on blinking leds, I constructed a circuit with
-a red LED on pin 23 on the pi, and a green LED on pin 18.
+a red LED on pin 23 on the pi. You want to connect a jumper to GPIO
+pin 23 and a jumper to ground. See the
+[online diagram](http://pinout.xyz/). Pin 23 should run to the long
+wire of the LED, and the short wire to GND. Connect a resistor in
+series with the LED to prevent it from shorting out.
 
 We can set up code to initialize the leds to off, and to blink a
 specified led.
@@ -54,7 +58,7 @@ def blink_led(led, duration):
     GPIO.output(led, False)
 ```
 
-We're going to use [python generators](http://www.dabeaz.com/generators/Generators.pdf) to produce a /stream/, an infinite
+We're going to use [python generators](http://www.dabeaz.com/generators/Generators.pdf) to produce a *stream*, an infinite
 list of sshd log entries from `/var/log/auth.log`. If these lines
 match "Failed" we blink the red LED.
 
@@ -82,10 +86,8 @@ GPIO.cleanup()
 
 ## Results
 
-This program loops forever, waiting for ssh login attempts and
-blinking the appropriate LED.
-
-![rpi with ssh detection LEDs]({filename}/images/pi-ssh-checker.jpg)
+This program loops forever, waiting for failed ssh login attempts and
+blinking the LED.
 
 ## Discussion
 
